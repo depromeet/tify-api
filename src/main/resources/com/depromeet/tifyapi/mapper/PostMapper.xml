@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.depromeet.tifyapi.mapper.PostMapper">
+    <resultMap id="resultMap" type="com.depromeet.tifyapi.model.Post">
+        <result column="post_id" property="postId" />
+        <result column="link" property="link" />
+        <result column="receiver_id" property="receiverId" />
+    </resultMap>
+    <select id="findOne" resultMap="resultMap" parameterType="int">
+        SELECT * FROM `post` WHERE post_id = #{postId}
+    </select>
+    <select id="findAll" resultMap="resultMap">
+        SELECT * FROM `post`
+    </select>
+    <insert id="createPost" parameterType="com.depromeet.tifyapi.model.Post">
+        INSERT INTO `post`
+        SET
+        link=#{post.link},
+        receiver_id=#{post.receiverId}
+    </insert>
+</mapper>
