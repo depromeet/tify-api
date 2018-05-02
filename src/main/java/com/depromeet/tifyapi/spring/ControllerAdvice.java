@@ -1,6 +1,7 @@
 package com.depromeet.tifyapi.spring;
 
 import com.depromeet.tifyapi.Exception.NoContentException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,4 +13,10 @@ public class ControllerAdvice {
     public ResponseEntity<String> handleNoContentException() {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @ExceptionHandler(value = DataAccessException.class)
+    public ResponseEntity<String> handleDataAccessException() {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
