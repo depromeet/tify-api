@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostService {
-    List<PostDto> getPosts();
     Optional<PostDto> getPost(Integer postId);
-    Integer addPost(PostDto postDto);
+    List<PostDto> getPosts();
+    Integer createPost(PostDto postDto);
 }
