@@ -11,4 +11,5 @@ public interface TagMapper {
     List<Tag> findAll();
     Tag findOne(@Param("tagId") Integer tagId);
     Integer createTag(@Param("tag") Tag tag);
+    List<Tag> findTagsByPostId(@Param("postId") Integer postId);
 }
