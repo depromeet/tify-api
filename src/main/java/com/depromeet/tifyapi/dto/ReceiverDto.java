@@ -1,26 +1,22 @@
-package com.depromeet.tifyapi.model;
+package com.depromeet.tifyapi.dto;
 
-import com.depromeet.tifyapi.dto.ReceiverDto;
+import com.depromeet.tifyapi.model.Receiver;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Builder
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Receiver {
+public class ReceiverDto {
     private Integer receiverId;
     private String name;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date anniversary;
 
-    public ReceiverDto toReceiverDto() {
-        return ReceiverDto.builder()
+    public Receiver toReceiver() {
+        return Receiver.builder()
                 .receiverId(receiverId)
                 .name(name)
                 .anniversary(anniversary)
