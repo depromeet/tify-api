@@ -18,4 +18,9 @@
         SET
         name=#{tag.name}
     </insert>
+    <select id="findTagsByPostId" resultMap="resultMap" parameterType="int">
+        SELECT t.tag_id, t.name
+        FROM (SELECT tag_id FROM description where post_id = #{postId}) a
+        join tag t on a.tag_id = t.tag_id;
+    </select>
 </mapper>

@@ -15,8 +15,8 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler(value = DataAccessException.class)
-    public ResponseEntity<String> handleDataAccessException() {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<String> handleDataAccessException(DataAccessException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

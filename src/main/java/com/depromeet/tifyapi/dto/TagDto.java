@@ -1,17 +1,17 @@
-package com.depromeet.tifyapi.model;
+package com.depromeet.tifyapi.dto;
 
-import com.depromeet.tifyapi.dto.TagDto;
+import com.depromeet.tifyapi.model.Tag;
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
-public class Tag {
+public class TagDto {
     private Integer tagId;
     private String name;
 
-    public TagDto toTagDto() {
-        return TagDto.builder()
+    public Tag toTag() {
+        return Tag.builder()
                 .tagId(tagId)
                 .name(name)
                 .build();

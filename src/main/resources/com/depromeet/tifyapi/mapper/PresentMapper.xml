@@ -22,4 +22,9 @@
         description=#{present.description},
         link=#{present.link}
     </insert>
+    <select id="findPresentsByTagId" resultMap="resultMap" parameterType="int">
+        SELECT p.present_id, p.name, p.description, p.link
+        FROM (SELECT present_id FROM recommendation where tag_id = #{tagId}) a
+        join present p on a.present_id = p.present_id;
+    </select>
 </mapper>

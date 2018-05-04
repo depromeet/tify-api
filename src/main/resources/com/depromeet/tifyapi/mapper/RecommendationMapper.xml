@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.depromeet.tifyapi.mapper.RecommendationMapper">
+    <resultMap id="resultMap" type="com.depromeet.tifyapi.model.Recommendation">
+        <result column="recommendation_id" property="recommendationId" />
+        <result column="tag_id" property="tagId" />
+        <result column="present_id" property="presentId" />
+    </resultMap>
+    <select id="findOne" resultMap="resultMap" parameterType="int">
+        SELECT * FROM `recommendation` WHERE recommendation_id = #{recommendationId}
+    </select>
+    <select id="findAll" resultMap="resultMap">
+        SELECT * FROM `recommendation`
+    </select>
+    <insert id="createRecommendation" parameterType="com.depromeet.tifyapi.model.Recommendation">
+        INSERT INTO `recommendation`
+        SET
+        tag_id=#{recommendation.tagId},
+        present_id=#{recommendation.presentId}
+    </insert>
+</mapper>
