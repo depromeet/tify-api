@@ -5,6 +5,7 @@ import com.depromeet.tifyapi.dto.PresentDto;
 import com.depromeet.tifyapi.service.PresentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,8 +27,16 @@ public class PresentController {
     }
 
     @PostMapping
-    public int addPresent(@RequestBody PresentDto presentDto) {
-        return presentService.createPresent(presentDto);
+    public int addPresent(@RequestParam("name") String name,
+                          @RequestParam("description") String description,
+                          @RequestParam("link") String link,
+                          @RequestParam("image") MultipartFile imageFile) {
+        return presentService.createPresent(PresentDto.builder()
+                .name(name)
+                .description(description)
+                .link(link)
+                .image(imageFile)
+                .build());
     }
 
 }

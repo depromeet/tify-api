@@ -11,6 +11,7 @@ public class Present {
     private String name;
     private String description;
     private String link;
+    private String image;
 
     public PresentDto toPresentDto() {
         return PresentDto.builder()
@@ -18,6 +19,7 @@ public class Present {
                 .name(name)
                 .description(description)
                 .link(link)
+                .link(image)
                 .build();
     }
 }
