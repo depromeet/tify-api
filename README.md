@@ -17,4 +17,4 @@ git clone https://github.com/depromeet/tify-api.git
 @junhaesung 에게 문의하세요.
 
 ## Swagger
-[http://13.124.143.136:8080/swagger-ui.html](http://13.124.143.136:8080/swagger-ui.html)
+[http://13.124.143.136:9000/swagger-ui.html](http://13.124.143.136:9000/swagger-ui.html)
