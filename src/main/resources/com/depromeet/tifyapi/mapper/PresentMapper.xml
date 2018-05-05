@@ -8,6 +8,7 @@
         <result column="name" property="name" />
         <result column="description" property="description" />
         <result column="link" property="link" />
+        <result column="image" property="image" />
     </resultMap>
     <select id="findOne" resultMap="resultMap" parameterType="int">
         SELECT * FROM `present` WHERE present_id = #{presentId}
@@ -15,12 +16,13 @@
     <select id="findAll" resultMap="resultMap">
         SELECT * FROM `present`
     </select>
-    <insert id="createPresent" parameterType="com.depromeet.tifyapi.model.Present">
+    <insert id="createPresent" parameterType="com.depromeet.tifyapi.model.Present"  useGeneratedKeys="true" keyProperty="present.presentId">
         INSERT INTO `present`
         SET
         name=#{present.name},
         description=#{present.description},
-        link=#{present.link}
+        link=#{present.link},
+        image=#{present.image}
     </insert>
     <select id="findPresentsByTagId" resultMap="resultMap" parameterType="int">
         SELECT p.present_id, p.name, p.description, p.link
