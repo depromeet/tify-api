@@ -4,8 +4,10 @@ import com.depromeet.tifyapi.Exception.NoContentException;
 import com.depromeet.tifyapi.dto.TagDto;
 import com.depromeet.tifyapi.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -15,8 +17,21 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping
-    public List<TagDto> getTags() {
-        return tagService.getTags();
+    public List<TagDto> getTags(@RequestParam(value = "name", required = false, defaultValue = "") String name,
+                                @RequestParam(value = "type", required = false, defaultValue = "equal") String type) {
+        if (StringUtils.isEmpty(name)) {
+            return tagService.getTags();
+        }
+
+        if ("equal".equals(type)) {
+            return tagService.getTagByName(name)
+                    .map(Collections::singletonList)
+                    .orElse(Collections.emptyList());
+        } else if ("include".equals(type)) {
+            return tagService.getTagsIncludingName(name);
+        } else {
+            throw new NoContentException();
+        }
     }
 
     @GetMapping("/{tagId:\\d+}")

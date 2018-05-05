@@ -16,4 +16,11 @@ public class TagDto {
                 .name(name)
                 .build();
     }
+
+    public static TagDto of(Tag tag) {
+        return TagDto.builder()
+                .tagId(tag.getTagId())
+                .name(tag.getName())
+                .build();
+    }
 }

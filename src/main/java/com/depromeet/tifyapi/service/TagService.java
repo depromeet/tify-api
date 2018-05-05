@@ -10,4 +10,6 @@ public interface TagService {
     List<TagDto> getTags();
     List<TagDto> getTagsByPostId(Integer postId);
     Integer createTag(TagDto tagDto);
+    Optional<TagDto> getTagByName(String name);
+    List<TagDto> getTagsIncludingName(String name);
 }
