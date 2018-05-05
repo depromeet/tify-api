@@ -38,7 +38,7 @@ public class PresentDto {
                 .build();
     }
 
-    public static PresentDto from(Present present) {
+    public static PresentDto of(Present present) {
         return PresentDto.builder()
                 .presentId(present.getPresentId())
                 .name(present.getName())
