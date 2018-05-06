@@ -9,11 +9,4 @@ import lombok.Getter;
 public class Tag {
     private Integer tagId;
     private String name;
-
-    public TagDto toTagDto() {
-        return TagDto.builder()
-                .tagId(tagId)
-                .name(name)
-                .build();
-    }
 }

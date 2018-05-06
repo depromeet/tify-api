@@ -1,11 +1,15 @@
 package com.depromeet.tifyapi.dto;
 
 import com.depromeet.tifyapi.model.Tag;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TagDto {
     private Integer tagId;
     private String name;

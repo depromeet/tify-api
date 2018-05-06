@@ -33,11 +33,9 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<TagDto> getTagsByPostId(Integer postId) {
-        List<Tag> tags = tagMapper.findTagsByPostId(postId);
-        if (tags == null) {
-            return Collections.emptyList();
-        }
-        return tags.stream()
+        return Optional.ofNullable(tagMapper.findTagsByPostId(postId))
+                .orElse(Collections.emptyList())
+                .stream()
                 .map(TagDto::of)
                 .collect(Collectors.toList());
     }
