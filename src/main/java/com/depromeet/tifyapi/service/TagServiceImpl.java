@@ -1,22 +1,32 @@
 package com.depromeet.tifyapi.service;
 
-import com.depromeet.tifyapi.Exception.NoContentException;
-import com.depromeet.tifyapi.dto.TagDto;
-import com.depromeet.tifyapi.mapper.TagMapper;
-import com.depromeet.tifyapi.model.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.depromeet.tifyapi.Exception.NoContentException;
+import com.depromeet.tifyapi.dto.TagDto;
+import com.depromeet.tifyapi.mapper.PresentMapper;
+import com.depromeet.tifyapi.mapper.RecommendationMapper;
+import com.depromeet.tifyapi.mapper.TagMapper;
+import com.depromeet.tifyapi.model.Present;
+import com.depromeet.tifyapi.model.Recommendation;
+import com.depromeet.tifyapi.model.Tag;
+
 @Service
 public class TagServiceImpl implements TagService {
+	
     @Autowired
     private TagMapper tagMapper;
-
+    @Autowired
+    private PresentMapper presentMapper;
+    @Autowired
+    private RecommendationMapper recommendationMapper;
+    
     @Override
     public Optional<TagDto> getTag(Integer tagId) {
         return Optional.empty();
@@ -50,4 +60,16 @@ public class TagServiceImpl implements TagService {
         }
         return tag.getTagId();
     }
+
+	@Override
+	public Integer createRecommendation(Integer tagId, Integer presenttId) {
+		Tag tag = tagMapper.findOne(tagId);
+		Present present = presentMapper.findOne(presenttId);
+		if(tag==null || present == null) throw new NoContentException();
+		Recommendation recommend = Recommendation.builder()
+												.tagId(1)
+												.presentId(1)
+												.build();
+		return recommendationMapper.createRecommendation(recommend);
+	}
 }
