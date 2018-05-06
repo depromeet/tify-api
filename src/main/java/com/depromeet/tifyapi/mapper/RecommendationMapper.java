@@ -1,10 +1,11 @@
 package com.depromeet.tifyapi.mapper;
 
-import com.depromeet.tifyapi.model.Recommendation;
-import org.apache.ibatis.annotations.Param;
-import org.mapstruct.Mapper;
-
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.depromeet.tifyapi.model.Recommendation;
 
 @Mapper
 public interface RecommendationMapper {

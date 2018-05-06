@@ -62,13 +62,13 @@ public class TagServiceImpl implements TagService {
     }
 
 	@Override
-	public Integer createRecommendation(Integer tagId, Integer presenttId) {
+	public Integer createRecommendation(Integer tagId, Integer presentId) {
 		Tag tag = tagMapper.findOne(tagId);
-		Present present = presentMapper.findOne(presenttId);
+		Present present = presentMapper.findOne(presentId);
 		if(tag==null || present == null) throw new NoContentException();
 		Recommendation recommend = Recommendation.builder()
-												.tagId(1)
-												.presentId(1)
+												.tagId(tagId)
+												.presentId(presentId)
 												.build();
 		return recommendationMapper.createRecommendation(recommend);
 	}
