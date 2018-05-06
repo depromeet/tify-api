@@ -21,4 +21,7 @@
         tag_id=#{recommendation.tagId},
         present_id=#{recommendation.presentId}
     </insert>
+    <select id="isoverlap" resultType="int" parameterType="int">
+    	select count(recommendation_id) from recommendation where tag_id=#{tagId} and present_id=#{presentId}
+    </select>
 </mapper>

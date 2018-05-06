@@ -77,9 +77,10 @@ public class PresentServiceImpl implements PresentService {
 
 	@Override
 	public Integer createRecommendation(Integer tagId, Integer presentId) {
-		Tag tag = tagMapper.findOne(tagId);
-		Present present = presentMapper.findOne(presentId);
-		if(tag==null || present == null) throw new NoContentException();
+		if(tagMapper.findOne(tagId)==null || presentMapper.findOne(presentId)==null || recommendationMapper.isoverlap(tagId,presentId)>=1) {
+			throw new NoContentException();
+		}
+		
 		Recommendation recommend = Recommendation.builder()
 												.tagId(tagId)
 												.presentId(presentId)

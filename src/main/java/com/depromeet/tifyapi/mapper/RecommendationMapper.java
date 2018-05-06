@@ -12,4 +12,5 @@ public interface RecommendationMapper {
     List<Recommendation> findAll();
     Recommendation findOne(@Param("recommendationId") Integer recommendationId);
     Integer createRecommendation(@Param("recommendation") Recommendation recommendation);
+    Integer isoverlap(@Param("tagId")Integer tagId, @Param("presentId") Integer presentId);
 }
