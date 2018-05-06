@@ -62,9 +62,13 @@ public class PostServiceImpl implements PostService {
             throw new BadRequestException();
         }
 
+        if (postMapper.findOne(postId) == null) {
+            throw new BadRequestException();
+        }
+
         TagDto tagDto = Optional.ofNullable(tagMapper.findTagByName(tagName))
                 .map(TagDto::of)
-                .orElseThrow(() -> new NoContentException());
+                .orElseThrow(() -> new BadRequestException());
 
         Description description = Description.builder()
                 .postId(postId)
