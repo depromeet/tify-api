@@ -10,4 +10,5 @@ public interface PresentService {
     List<PresentDto> getPresents();
     List<PresentDto> getPresentsByTagId(Integer tagId);
     Integer createPresent(PresentDto presentDto);
+    Integer createRecommendation(Integer tagId, Integer postId);
 }
