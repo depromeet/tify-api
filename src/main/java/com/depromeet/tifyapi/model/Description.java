@@ -6,7 +6,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class Description {
-    Integer descriptionId;
-    Integer postId;
-    Integer tagId;
+    private Integer descriptionId;
+    private Integer postId;
+    private Integer tagId;
 }
