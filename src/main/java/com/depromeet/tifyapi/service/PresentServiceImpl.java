@@ -38,7 +38,7 @@ public class PresentServiceImpl implements PresentService {
     @Override
     public Optional<PresentDto> getPresent(Integer presentId) {
         return Optional.ofNullable(presentMapper.findOne(presentId))
-                .map(PresentDto::from);
+                .map(PresentDto::of);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class PresentServiceImpl implements PresentService {
         return Optional.ofNullable(presentMapper.findAll())
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(PresentDto::from)
+                .map(PresentDto::of)
                 .collect(Collectors.toList());
     }
 

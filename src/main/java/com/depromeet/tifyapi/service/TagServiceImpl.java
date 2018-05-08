@@ -37,18 +37,16 @@ public class TagServiceImpl implements TagService {
         return Optional.ofNullable(tagMapper.findAll())
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(Tag::toTagDto)
+                .map(TagDto::of)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<TagDto> getTagsByPostId(Integer postId) {
-        List<Tag> tags = tagMapper.findTagsByPostId(postId);
-        if (tags == null) {
-            return Collections.emptyList();
-        }
-        return tags.stream()
-                .map(Tag::toTagDto)
+        return Optional.ofNullable(tagMapper.findTagsByPostId(postId))
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(TagDto::of)
                 .collect(Collectors.toList());
     }
 
@@ -59,6 +57,21 @@ public class TagServiceImpl implements TagService {
             throw new NoContentException();
         }
         return tag.getTagId();
+    }
+
+    @Override
+    public Optional<TagDto> getTagByName(String name) {
+        return Optional.ofNullable(tagMapper.findTagByName(name))
+                .map(TagDto::of);
+    }
+
+    @Override
+    public List<TagDto> getTagsIncludingName(String name) {
+        return Optional.ofNullable(tagMapper.findTagsIncludingName(name))
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(TagDto::of)
+                .collect(Collectors.toList());
     }
 
 	@Override
