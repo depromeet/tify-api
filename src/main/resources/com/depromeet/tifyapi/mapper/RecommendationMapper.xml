@@ -8,6 +8,7 @@
         <result column="tag_id" property="tagId" />
         <result column="present_id" property="presentId" />
     </resultMap>
+    
     <select id="findOne" resultMap="resultMap" parameterType="int">
         SELECT * FROM `recommendation` WHERE recommendation_id = #{recommendationId}
     </select>
@@ -20,4 +21,7 @@
         tag_id=#{recommendation.tagId},
         present_id=#{recommendation.presentId}
     </insert>
+    <select id="isoverlap" resultType="int" parameterType="int">
+    	select count(recommendation_id) from recommendation where tag_id=#{tagId} and present_id=#{presentId}
+    </select>
 </mapper>

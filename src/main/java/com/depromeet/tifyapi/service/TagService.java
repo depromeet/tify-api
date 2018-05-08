@@ -1,5 +1,6 @@
 package com.depromeet.tifyapi.service;
 
+import com.depromeet.tifyapi.dto.PostDto;
 import com.depromeet.tifyapi.dto.TagDto;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface TagService {
     Integer createTag(TagDto tagDto);
     Optional<TagDto> getTagByName(String name);
     List<TagDto> getTagsIncludingName(String name);
+    Integer createRecommendation(Integer tagId, Integer postId);
 }

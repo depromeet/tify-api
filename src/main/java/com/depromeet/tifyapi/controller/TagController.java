@@ -1,14 +1,22 @@
 package com.depromeet.tifyapi.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.depromeet.tifyapi.Exception.NoContentException;
 import com.depromeet.tifyapi.dto.TagDto;
 import com.depromeet.tifyapi.service.TagService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
-import java.util.List;
 
 @RestController
 @RequestMapping("/tags")
@@ -39,9 +47,15 @@ public class TagController {
         return tagService.getTag(tagId)
                 .orElseThrow(() -> new NoContentException());
     }
-
+    
     @PostMapping
     public Integer addTag(@RequestBody TagDto tagDto) {
         return tagService.createTag(tagDto);
     }
+    
+    @PostMapping("/{tagId}/presents")
+    public Integer addpresent(@PathVariable("tagId") Integer tagId, @RequestParam("presentId") Integer presentId) {
+    	return tagService.createRecommendation(tagId, presentId);//return recommend_id 
+    }
+    
 }

@@ -38,5 +38,9 @@ public class PresentController {
                 .image(imageFile)
                 .build());
     }
-
+    
+    @PostMapping("/{presentId}/tags")
+    public Integer addpresent(@PathVariable("presentId") Integer presentId, @RequestParam("tagId") Integer tagId) {
+    	return presentService.createRecommendation(tagId, presentId);//return recommend_id 
+    }
 }

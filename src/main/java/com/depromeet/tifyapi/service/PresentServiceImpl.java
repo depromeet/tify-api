@@ -3,7 +3,12 @@ package com.depromeet.tifyapi.service;
 import com.depromeet.tifyapi.Exception.NoContentException;
 import com.depromeet.tifyapi.dto.PresentDto;
 import com.depromeet.tifyapi.mapper.PresentMapper;
+import com.depromeet.tifyapi.mapper.RecommendationMapper;
+import com.depromeet.tifyapi.mapper.TagMapper;
 import com.depromeet.tifyapi.model.Present;
+import com.depromeet.tifyapi.model.Recommendation;
+import com.depromeet.tifyapi.model.Tag;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +25,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PresentServiceImpl implements PresentService {
     @Autowired
+    private TagMapper tagMapper;
+    @Autowired
     private PresentMapper presentMapper;
+    @Autowired
+    private RecommendationMapper recommendationMapper;
+    
     @Qualifier("AwsS3Service")
     @Autowired
     private StorageService storageService;
@@ -64,4 +74,17 @@ public class PresentServiceImpl implements PresentService {
             throw new NoContentException();
         }
     }
+
+	@Override
+	public Integer createRecommendation(Integer tagId, Integer presentId) {
+		if(tagMapper.findOne(tagId)==null || presentMapper.findOne(presentId)==null || recommendationMapper.isoverlap(tagId,presentId)>=1) {
+			throw new NoContentException();
+		}
+		
+		Recommendation recommend = Recommendation.builder()
+												.tagId(tagId)
+												.presentId(presentId)
+												.build();
+		return recommendationMapper.createRecommendation(recommend);
+	}
 }
