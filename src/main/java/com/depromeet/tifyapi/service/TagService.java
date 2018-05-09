@@ -14,4 +14,5 @@ public interface TagService {
     Optional<TagDto> getTagByName(String name);
     List<TagDto> getTagsIncludingName(String name);
     Integer createRecommendation(Integer tagId, Integer postId);
+    Integer getOrCreateByTagName(String name);
 }

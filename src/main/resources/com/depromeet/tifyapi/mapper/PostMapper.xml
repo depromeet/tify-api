@@ -14,7 +14,7 @@
     <select id="findAll" resultMap="resultMap">
         SELECT * FROM `post`
     </select>
-    <insert id="createPost" parameterType="com.depromeet.tifyapi.model.Post">
+    <insert id="createPost" parameterType="com.depromeet.tifyapi.model.Post" useGeneratedKeys="true" keyProperty="post.postId">
         INSERT INTO `post`
         SET
         link=#{post.link},
