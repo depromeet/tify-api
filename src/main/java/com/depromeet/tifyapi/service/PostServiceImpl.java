@@ -1,8 +1,11 @@
 package com.depromeet.tifyapi.service;
 
+import com.depromeet.tifyapi.Exception.ApiFailedException;
 import com.depromeet.tifyapi.Exception.BadRequestException;
 import com.depromeet.tifyapi.Exception.NoContentException;
 import com.depromeet.tifyapi.dto.PostDto;
+import com.depromeet.tifyapi.dto.ReceiverDto;
+import com.depromeet.tifyapi.dto.RequestedPost;
 import com.depromeet.tifyapi.dto.TagDto;
 import com.depromeet.tifyapi.mapper.DescriptionMapper;
 import com.depromeet.tifyapi.mapper.PostMapper;
@@ -11,11 +14,14 @@ import com.depromeet.tifyapi.model.Description;
 import com.depromeet.tifyapi.model.Post;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +36,13 @@ public class PostServiceImpl implements PostService {
     private TagMapper tagMapper;
     @Autowired
     private DescriptionMapper descriptionMapper;
+    @Qualifier("AwsS3Service")
+    @Autowired
+    private StorageService storageService;
+    @Autowired
+    private ReceiverService receiverService;
+    @Autowired
+    private TagService tagservice;
 
     @Override
     public Optional<PostDto> getPost(Integer postId) {
@@ -93,20 +106,36 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
-//    @Override
-//    public ResponsePost getResponsePost(Integer postId) {
-//        // post
-//        PostDto post = getPost(postId).orElseThrow(() -> new NoContentException());
-//        // tag
-//        List<TagDto> tags = tagService.getTagsByPostId(postId);
-//        // receiver
-//        ReceiverDto receiver = receiverService.getReceiver(post.getReceiverId());
-//
-//        return ResponsePost.builder()
-//                .postId(post.getPostId())
-//                .link(post.getLink())
-//                .receiver(receiver)
-//                .tags(tags)
-//                .build();
-//    }
+    @Override
+    @Transactional
+    public Integer createPost(@RequestBody RequestedPost requestedPost) {
+        // create receiver
+        Integer receiverId = receiverService.createReceiver(ReceiverDto.builder()
+                .name(requestedPost.getName())
+                .anniversary(requestedPost.getAnniversary())
+                .image(requestedPost.getImage())
+                .build());
+        // create post
+        Integer postId = createPost(PostDto.builder()
+                .link("")
+                .receiverId(receiverId)
+                .build());
+        // create tags and connect tags to post
+        requestedPost.getTags().stream()
+                .map(tagName -> tagservice.getOrCreateByTagName(tagName))
+                .forEach(tagId -> {
+                    try {
+                        if (postId != null && tagId != null) {
+                            descriptionMapper.createDescription(Description.builder()
+                                    .postId(postId)
+                                    .tagId(tagId)
+                                    .build());
+                        }
+                    } catch (DuplicateKeyException e) {
+                        log.error("DuplicateKeyException");
+                    }
+                });
+        // return post id
+        return postId;
+    }
 }

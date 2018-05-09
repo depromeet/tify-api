@@ -1,5 +1,6 @@
 package com.depromeet.tifyapi.spring;
 
+import com.depromeet.tifyapi.Exception.ApiFailedException;
 import com.depromeet.tifyapi.Exception.BadRequestException;
 import com.depromeet.tifyapi.Exception.NoContentException;
 import org.springframework.dao.DataAccessException;
@@ -25,4 +26,8 @@ public class ControllerAdvice {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = ApiFailedException.class)
+    public ResponseEntity<String> handleApiFailedException(ApiFailedException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

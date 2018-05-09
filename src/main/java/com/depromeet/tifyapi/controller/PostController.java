@@ -2,13 +2,19 @@ package com.depromeet.tifyapi.controller;
 
 import com.depromeet.tifyapi.Exception.NoContentException;
 import com.depromeet.tifyapi.dto.PostDto;
+import com.depromeet.tifyapi.dto.RequestedPost;
 import com.depromeet.tifyapi.dto.TagDto;
 import com.depromeet.tifyapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -29,8 +35,17 @@ public class PostController {
     }
 
     @PostMapping
-    public int addPost(@RequestBody PostDto postDto) {
-        return postService.createPost(postDto);
+    public int addPost(@RequestParam("image") MultipartFile multipartFile,
+                       @RequestParam("name") String name,
+                       @RequestParam("anniversary") String anniversary,
+                       @RequestParam("tags") String tags) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return postService.createPost(RequestedPost.builder()
+                .name(name)
+                .tags(Arrays.asList(tags.split(",")))
+                .anniversary(formatter.parse(anniversary))
+                .image(multipartFile)
+                .build());
     }
 
     @PostMapping("/{postId:\\d+}/tags")

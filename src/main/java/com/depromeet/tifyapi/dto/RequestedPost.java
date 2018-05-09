@@ -1,21 +1,19 @@
-package com.depromeet.tifyapi.model;
+package com.depromeet.tifyapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class Receiver {
-    private Integer receiverId;
+public class RequestedPost {
     private String name;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date anniversary;
-    private String image;
+    private List<String> tags;
+    private MultipartFile image;
 }

@@ -53,8 +53,11 @@ public class TagServiceImpl implements TagService {
     @Override
     public Integer createTag(TagDto tagDto) {
         Tag tag = tagDto.toTag();
-        if (tagMapper.createTag(tag) != 1) {
-            throw new NoContentException();
+        try {
+            tagMapper.createTag(tag);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return tagMapper.findTagByName(tag.getName()).getTagId();
         }
         return tag.getTagId();
     }
@@ -85,4 +88,13 @@ public class TagServiceImpl implements TagService {
 												.build();
 		return recommendationMapper.createRecommendation(recommend);
 	}
+
+    @Override
+    public Integer getOrCreateByTagName(String name) {
+        return getTagByName(name)
+                .map(TagDto::getTagId)
+                .orElse(createTag(TagDto.builder()
+                        .name(name)
+                        .build()));
+    }
 }
